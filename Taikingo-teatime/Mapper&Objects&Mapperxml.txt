@@ -1,0 +1,9 @@
+Mapper和Object对象和Mapper.xml的逻辑关系
+Object是我们想要操作的模型，
+Mapper.xml里面写了操作模型所对应的sql语句
+而Mapper是一个接口，勇于负责代理操作，里面的方法定义了对模型的操作
+
+Mapper接口中的方法的参数可以直接再Mapper.xml中被接收到 be like →  #{param}
+
+resource里存放mapper.xml的目录结构需要与mapper接口的目录一样，相当与resource与java同级
+事实上，编译之后，resource的文件就会被放到和java里面，如果目录结构相同的话，那么两个文件就会被放到同一个位置
