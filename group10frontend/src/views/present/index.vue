@@ -167,8 +167,9 @@
                     <h3>COMMENTS</h3>
                 </div>
                 <div class="comment_content" id="comment_content" style="flex:5; width: 80%;"></div>
-                <div style="flex:1; display: flex; justify-content: flex-start; flex-direction: row; width: 80%; margin: 10px 0;" >
+                <div style="flex:1; display: flex; justify-content: flex-start; flex-direction: row; width: 80%; margin: 10px 0; align-items: center;" >
                     <el-avatar shape="square" :size="50" :src="require('../../assets/member5.jpg')"></el-avatar>
+                    <span style="margin-left: 10px; font-weight: bolder;">Manager Sekikuti</span>
                 </div>
                 <div style="flex:4; width: 80%;">
                     <el-input
@@ -508,28 +509,42 @@ export default{
         },
 
         open_comment_dialog(member_id){
+            
             this.current_comment_member = member_id;
             let report_dialog = document.getElementById("reportDialog");
             let comment_dialog = document.getElementById("commentDialog");
             let comment_content = document.getElementById("comment_content");
             //axios 请求comment content
-            
+            if(comment_dialog.style.display==""){
+                comment_dialog.classList.add("animate__animated","animate__fadeOutDown");
+                setTimeout(()=>{
+                    comment_dialog.classList.remove("animate__animated","animate__fadeOutDown");
+                    comment_dialog.classList.add("animate__animated","animate__fadeInUp");
+                },500)
+            }
+
             if(comment_content.innerHTML==""){
                 comment_content.innerHTML = "There is not any comment right here"
             }
             
             report_dialog.style.left = "30%";
-            console.log("left 20%");
+            // console.log("left 20%");
             comment_dialog.style.display="";
             comment_dialog.classList.add("animate__animated","animate__fadeInUp");
 
         },
 
+        close_comment_dialog(){
+            let comment_dialog = document.getElementById("commentDialog");
+            comment_dialog.style.display = "none";
+        },
+
         submit_comment(){
             // submit current_date.month, current_date.day, current_comment_member
-            this.$message.success("success")
-            this.closeReport()
-            this.comment_content = ""
+            this.$message.success("success");
+            this.comment_content = "コメントを入力してください";
+            // this.closeReport()
+            
         }
 
     }
