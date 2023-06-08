@@ -16,7 +16,7 @@
             </div>
         </div>
         
-
+<!-- calendar compnents -->
             <div class="calendar_components" style="width:60%; margin-bottom: 20px;" id="month_title"><h1>{{currentMonth}}</h1></div>
             <div class="calendar_components" id="calendar" style="width:60%;height: 60%;" @click="showReport($event)" @mouseover="dateshake($event)">
                 <div class="date_th"></div>
@@ -74,8 +74,8 @@
                 <div><button @click="changeMonth(may)">May</button></div>
                 <div><button @click="changeMonth(june)">June</button></div>
             </div>
-    
-            <div class="reportDialog" id="reportDialog">
+        <div class="report_comments_container">
+            <div class="reportDialog" id="reportDialog" style="flex:3">
                 <div style="margin:0 100px; display: flex;">
                     <div style="display:flex; justify-content: end; width: 100%;">
                         <el-avatar @click="closeReport" style="background-color: #ffffff00;" :size="20" :src="require('../../assets/close.png')"></el-avatar>
@@ -141,8 +141,45 @@
                         <br>
                         <div class="report_content"></div>
                     </div>
+                    <div style="flex:1" >
+                        <div><button class="comment_btn" @click="open_comment_dialog()">COMMENTS</button></div>
+                    </div>
                 </div>
             </div><!-- dailog end    -->
+            <!-- comments dialog start -->
+            <div class="commentDialog" id="commentDialog" style="display:flex; flex-direction: column; justify-content: flex-start; align-items: center;">
+                <div class="comment_content" id="comment_content" style="width: 80%; height: 70%;  margin-top: 50px;">
+                    This is comment content
+                    This is comment contentThis is comment contentThis is comment contentThis is comment contentThis is comment contentThis is comment content
+                    This is comment contentThis is comment contentThis is comment content
+                    This is comment content
+                    This is comment content
+                    This is comment content
+                    This is comment content
+                    This is comment content<br>
+                    This is comment content<br>
+                <br>
+                    This is comment content
+                    This is comment content
+                    This is comment content
+                    This is comment content<br>
+                    This is comment content<br>
+                    This is comment content<br>
+                    This is comment content<br>
+                    This is comment content<br>
+                    This is comment content<br>
+                    This is comment content<br>
+                    This is comment content<br>
+                    This is comment content<br>
+                    This is comment content<br>
+                    This is comment content<br>
+                    This is comment content<br>
+
+
+                </div>
+            </div>
+        </div>
+            
     </div>
 </template>
 
@@ -222,9 +259,31 @@
  width: 800px; 
  height: 600px;
  
- position: absolute; left: 50%; top: 50%;
+ position: absolute; 
+ left: 50%; 
+ top: 50%;
  margin-top: -300px;    /* 高度的一半 */
  margin-left: -400px;    /* 宽度的一半 */
+ background: rgba(255, 255, 255, 0.19);
+ border-radius: 16px;
+ box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+ backdrop-filter: blur(6.5px);
+ -webkit-backdrop-filter: blur(6.5px);
+ display: flex;
+ flex-direction: column;
+ justify-content: space-around;
+ transition: left 1s;
+}
+
+.commentDialog{
+ width: 400px; 
+ height: 600px;
+ 
+ position: absolute; left: 80%; top: 50%;
+ /* 高度的一半 */
+ margin-top: -300px;    
+ /* 宽度的一半 */
+ margin-left: -200px;    
  background: rgba(255, 255, 255, 0.19);
  border-radius: 16px;
  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
@@ -242,6 +301,29 @@
     text-overflow: ellipsis;
     -webkit-line-clamp: 3; /* 显示的最大行数 */
 }
+
+.comment_content{
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.comment_btn{
+    display: inline-block;
+    outline: 0;
+    border: 0;
+    font-size: 12px;
+    font-weight: bolder;
+    color: #000;
+    cursor: pointer;
+    background-image: linear-gradient(to right,#60e95d,#07b9f4)!important;
+    border-radius: 3px;
+    padding: 16px 18px 15px;
+    white-space: nowrap;
+    letter-spacing: 1.5px;
+    margin-right: 0;
+    width: 100%;
+}
+
 
 </style>
 
@@ -286,10 +368,15 @@ export default{
         for(let i=0;i<calendar_components.length;i++){
             calendar_components[i].style.setProperty("display","none")
         }
-        // set dialog init dispare
+        // set report dialog init disappear
         let dialog = document.getElementById("reportDialog");
         dialog.style.setProperty("display","none");
         let date_th = document.getElementsByClassName("date_th");
+
+        // set comment dialog init disappear
+        let comment_dialog = document.getElementById("commentDialog");
+        comment_dialog.style.setProperty("display","none");
+
         for(let i=0; i<7;i++){
             date_th[i].innerHTML = this.date_table[i]
         }
@@ -391,7 +478,9 @@ export default{
         closeReport(){
             console.log("on blure close")
             let dialog = document.getElementById("reportDialog");
+            let comment_dialog = document.getElementById("commentDialog");
             dialog.style.setProperty("display","none");
+            comment_dialog.style.setProperty("display","none");
             for(let i=0;i<6;i++){
                     document.getElementsByClassName("report_name")[i].innerHTML = ""
                     document.getElementsByClassName("report_content")[i].innerHTML = ""
@@ -403,7 +492,17 @@ export default{
             setTimeout(()=>{
                 event.target.classList.remove("animate__animated","animate__swing")
             },1000)
+        },
+
+        open_comment_dialog(){
+            let report_dialog = document.getElementById("reportDialog");
+            let comment_dialog = document.getElementById("commentDialog");
+            report_dialog.style.left = "30%";
+            console.log("left 20%")
+            comment_dialog.style.display="";
+            comment_dialog.classList.add("animate__animated","animate__fadeInUp");
         }
+
     }
 }
 </script>
