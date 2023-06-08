@@ -234,11 +234,13 @@
       <div class="report_content"></div>
 
       <form action="post" class="form_comment">
-        <label>ユーザー名</label>
-        <input type="text" name="user_name" />
+        <label>UserName</label>
+        <input type="text" name="commented_user_name" class="input-user_name" />
 
-        <label>コメント</label>
-        <input type="textarea" name="report_comment" />
+        <label>Comment</label>
+        <textarea name="report_comment" class="input-comment">
+
+        </textarea>
 
         <button @click="submitComment()">submitComment</button>
       </form>
@@ -302,7 +304,7 @@
 }
 
 .month_controller > div > button,
-div.action-btn > button {
+div.action-btn > button{
   display: inline-block;
   outline: 0;
   border: 0;
@@ -373,6 +375,63 @@ div.report_flex_box-wrap > div.action-btn {
   -webkit-line-clamp: 3;
   /* 显示的最大行数 */
 }
+
+#reportDetail > div.report_content{
+    height: 10rem;
+    overflow: scroll;
+    padding-bottom: 4rem;
+    padding:2rem;
+  }
+#reportDetail > div.user_name {
+    font-weight: 500;
+    margin: auto;
+    padding-bottom: 1rem;
+}
+
+#reportDetail > form.form_comment{
+    height: 10rem;
+    overflow: hidden;
+    padding: 1rem 2rem 5rem;
+}
+form.form_comment > input,
+form.form_comment > textarea,
+form.form_comment > button {
+  display: block;
+  width: 90%;
+  padding: auto;
+  margin: auto;
+  margin-bottom: 1rem;
+  background:rgba(255, 255, 255, 0.19);
+  border: solid 1px #ccc;
+}
+
+form.form_comment > input.input-user_name {
+    width: 30%;
+}
+
+textarea.input-comment {
+  height: calc( 1.3em * 5 );
+  line-height: 1.3;
+}
+
+form.form_comment > button {
+    display: block;
+    width: 15rem;
+    padding: auto;
+    margin: auto;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #fff;
+    cursor: pointer;
+    background-image: linear-gradient(to right, #e052a0, #f15c41) !important;
+    border-radius: 3px;
+    white-space: nowrap;
+    letter-spacing: 3px;
+    height: 2rem;
+    border: none;
+}
+
 </style>
 
 <script>
@@ -594,7 +653,9 @@ export default {
         let reportDetail = document.getElementById("reportDetail");
         reportDetail.querySelector("div.report_content").innerHTML =
           this.user1.daily_report;
-        reportDetail.querySelector("form.form_comment").innerHTML =
+        reportDetail.querySelector("div.user_name").innerHTML =
+          this.user1.first_name;
+        reportDetail.querySelector("form.form_comment > textarea.input-comment").innerHTML =
           this.user1.report_comment;
 
         axios
