@@ -166,35 +166,7 @@
                 <div style="flex:1; display: flex; justify-content: flex-start; flex-direction: row; width: 80%; margin-top: 10px;" >
                     <h3>COMMENTS</h3>
                 </div>
-                <div class="comment_content" id="comment_content" style="flex:5; width: 80%;">
-                    This is comment content
-                    This is comment contentThis is comment contentThis is comment contentThis is comment contentThis is comment contentThis is comment content
-                    This is comment contentThis is comment contentThis is comment content
-                    This is comment content
-                    This is comment content
-                    This is comment content
-                    This is comment content
-                    This is comment content<br>
-                    This is comment content<br>
-                <br>
-                    This is comment content
-                    This is comment content
-                    This is comment content
-                    This is comment content<br>
-                    This is comment content<br>
-                    This is comment content<br>
-                    This is comment content<br>
-                    This is comment content<br>
-                    This is comment content<br>
-                    This is comment content<br>
-                    This is comment content<br>
-                    This is comment content<br>
-                    This is comment content<br>
-                    This is comment content<br>
-                    This is comment content<br>
-
-
-                </div>
+                <div class="comment_content" id="comment_content" style="flex:5; width: 80%;"></div>
                 <div style="flex:1; display: flex; justify-content: flex-start; flex-direction: row; width: 80%; margin: 10px 0;" >
                     <el-avatar shape="square" :size="50" :src="require('../../assets/member5.jpg')"></el-avatar>
                 </div>
@@ -539,16 +511,25 @@ export default{
             this.current_comment_member = member_id;
             let report_dialog = document.getElementById("reportDialog");
             let comment_dialog = document.getElementById("commentDialog");
+            let comment_content = document.getElementById("comment_content");
+            //axios 请求comment content
+            
+            if(comment_content.innerHTML==""){
+                comment_content.innerHTML = "There is not any comment right here"
+            }
+            
             report_dialog.style.left = "30%";
             console.log("left 20%");
             comment_dialog.style.display="";
             comment_dialog.classList.add("animate__animated","animate__fadeInUp");
+
         },
 
         submit_comment(){
             // submit current_date.month, current_date.day, current_comment_member
             this.$message.success("success")
             this.closeReport()
+            this.comment_content = ""
         }
 
     }
