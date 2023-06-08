@@ -91,6 +91,9 @@
                        <br>
                        <div class="report_content"></div>
                     </div>
+                    <div style="flex:1" >
+                        <div><button class="comment_btn" @click="open_comment_dialog(1)">COMMENTS</button></div>
+                    </div>
                 </div>
                 <div style="margin:0 100px; display: flex;">
                     <div class="block" style="flex:1">
@@ -100,6 +103,9 @@
                         <span style="font-weight: border;" class="report_name"></span>
                         <br>
                         <div class="report_content"></div>
+                    </div>
+                    <div style="flex:1" >
+                        <div><button class="comment_btn" @click="open_comment_dialog(2)">COMMENTS</button></div>
                     </div>
                 </div>
                 <div style="margin:0 100px; display: flex;">
@@ -111,6 +117,9 @@
                         <br>
                         <div class="report_content"></div>
                     </div>
+                    <div style="flex:1" >
+                        <div><button class="comment_btn" @click="open_comment_dialog(3)">COMMENTS</button></div>
+                    </div>
                 </div>
                 <div style="margin:0 100px; display: flex;">
                     <div class="block" style="flex:1">
@@ -121,8 +130,11 @@
                         <br>
                         <div class="report_content"></div>
                     </div>
+                    <div style="flex:1" >
+                        <div><button class="comment_btn" @click="open_comment_dialog(4)">COMMENTS</button></div>
+                    </div>
                 </div>
-                <div style="margin:0 100px; display: flex;">
+                <!-- <div style="margin:0 100px; display: flex;">
                     <div class="block" style="flex:1">
                         <el-avatar shape="square" :size="50" :src="require('../../assets/member5.jpg')"></el-avatar>
                     </div>
@@ -131,7 +143,10 @@
                         <br>
                         <div class="report_content"></div>
                     </div>
-                </div>
+                    <div style="flex:1" >
+                        <div><button class="comment_btn" @click="open_comment_dialog()">COMMENTS</button></div>
+                    </div>
+                </div> -->
                 <div style="margin:0 100px; display: flex;">
                     <div class="block" style="flex:1">
                         <el-avatar shape="square" :size="50" :src="require('../../assets/member6.jpg')"></el-avatar>
@@ -148,7 +163,10 @@
             </div><!-- dailog end    -->
             <!-- comments dialog start -->
             <div class="commentDialog" id="commentDialog" style="display:flex; flex-direction: column; justify-content: flex-start; align-items: center;">
-                <div class="comment_content" id="comment_content" style="width: 80%; height: 70%;  margin-top: 50px;">
+                <div style="flex:1; display: flex; justify-content: flex-start; flex-direction: row; width: 80%; margin-top: 10px;" >
+                    <h3>COMMENTS</h3>
+                </div>
+                <div class="comment_content" id="comment_content" style="flex:5; width: 80%;">
                     This is comment content
                     This is comment contentThis is comment contentThis is comment contentThis is comment contentThis is comment contentThis is comment content
                     This is comment contentThis is comment contentThis is comment content
@@ -176,6 +194,20 @@
                     This is comment content<br>
 
 
+                </div>
+                <div style="flex:1; display: flex; justify-content: flex-start; flex-direction: row; width: 80%; margin: 10px 0;" >
+                    <el-avatar shape="square" :size="50" :src="require('../../assets/member5.jpg')"></el-avatar>
+                </div>
+                <div style="flex:4; width: 80%;">
+                    <el-input
+                    type="textarea"
+                    :rows="8"
+                    placeholder="コメントを入力してください"
+                    v-model="comment_content" >
+                  </el-input>
+                </div>
+                <div style="flex:1; display: flex; justify-content: flex-end; flex-direction: row; width: 80%; margin: 10px 0;" >
+                    <button class="comment_btn" @click="submit_comment()">SUBMIT</button>
                 </div>
             </div>
         </div>
@@ -279,7 +311,7 @@
  width: 400px; 
  height: 600px;
  
- position: absolute; left: 80%; top: 50%;
+ position: absolute; left: 65%; top: 50%;
  /* 高度的一半 */
  margin-top: -300px;    
  /* 宽度的一半 */
@@ -303,8 +335,8 @@
 }
 
 .comment_content{
-    overflow: hidden;
-    text-overflow: ellipsis;
+    overflow: scroll;
+    text-overflow: scroll;
 }
 
 .comment_btn{
@@ -359,7 +391,13 @@ export default{
                 id:1,
                 daily_report:"daily report"
             },
-            data:[]
+            current_date:{
+                month:0,
+                day:0
+            },
+            current_comment_member:"",
+            data:[],
+            comment_content:"",
         }
     },
     mounted() {
@@ -447,6 +485,8 @@ export default{
         showReport(event){
             let month = event.target.getAttribute("month");
             let date = event.target.getAttribute("date");
+            this.current_date.month = month;
+            this.current_date.day = date;
             if(month==null||date==null){ return; }
             console.log("获取"+month+"月"+date+"日日报");
 
@@ -481,6 +521,7 @@ export default{
             let comment_dialog = document.getElementById("commentDialog");
             dialog.style.setProperty("display","none");
             comment_dialog.style.setProperty("display","none");
+            dialog.style.left = "50%";
             for(let i=0;i<6;i++){
                     document.getElementsByClassName("report_name")[i].innerHTML = ""
                     document.getElementsByClassName("report_content")[i].innerHTML = ""
@@ -494,13 +535,20 @@ export default{
             },1000)
         },
 
-        open_comment_dialog(){
+        open_comment_dialog(member_id){
+            this.current_comment_member = member_id;
             let report_dialog = document.getElementById("reportDialog");
             let comment_dialog = document.getElementById("commentDialog");
             report_dialog.style.left = "30%";
-            console.log("left 20%")
+            console.log("left 20%");
             comment_dialog.style.display="";
             comment_dialog.classList.add("animate__animated","animate__fadeInUp");
+        },
+
+        submit_comment(){
+            // submit current_date.month, current_date.day, current_comment_member
+            this.$message.success("success")
+            this.closeReport()
         }
 
     }
